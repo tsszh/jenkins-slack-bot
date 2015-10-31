@@ -44,3 +44,4 @@ Target
 .apdisk
 *.jar
 *.class
+/target/
