@@ -19,7 +19,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.zsong.integrations.jslack.jenkins_smart_slack.App</mainClass>
+							<mainClass>com.songzh.jenkins_slack.BotDemo</mainClass>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>dependency/</classpathPrefix>
 						</manifest>
