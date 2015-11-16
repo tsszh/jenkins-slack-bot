@@ -58,7 +58,7 @@ public class Bot {
 	private final String imServer;
 	private final String commandPrefix;
 	private boolean commandsAccepted;
-	private String helpCache = null;
+	private String helpCache;
 
 	private final AuthenticationHolder authentication;
 
@@ -70,15 +70,21 @@ public class Bot {
 		this.imServer = imServer;
 		this.commandPrefix = commandPrefix;
 		this.authentication = authentication;
-        this.commandsAccepted = chat.isCommandsAccepted();
+        this.commandsAccepted = true;
 
         for (BotCommand cmd : BotCommand.all()) {
             for (String name : cmd.getCommandNames())
                 this.cmdsAndAliases.put(name,cmd);
         }
 	}
-	public Bot(JBotChat chat){
-		this(chat,"nick","Server","!jenkins",null);
+	public Bot(){
+		this.chat = null;
+		this.nick = "nick";
+		this.imServer = "Server";
+		this.commandPrefix = "!jenkins";
+		this.authentication = null;
+        this.commandsAccepted = true;
+        this.cmdsAndAliases.put("test",new SnackCommand());
 	}
     /**
      * Returns an identifier describing the Im account used to send the build command.
@@ -88,6 +94,44 @@ public class Bot {
         return this.nick + "@" + this.imServer;
     }
 
+    public void onMessage( final JBotChat chat ) {
+    	String payload = chat.getMsg();
+    	final JBotMessage msg = new JBotMessage("From","To",payload);
+    	if ( payload != null ) {
+    		// split words
+            final String[] args = MessageHelper.extractCommandLine(payload);
+            final JBotSender s = new JBotSender(chat.getSender());
+            if (args.length > 0) {
+                // first word is the command name
+                String cmd = args[0];
+                try {
+                    System.out.println(cmd);
+                	final BotCommand command = this.cmdsAndAliases.get(cmd);
+                    if (command != null) {
+                    	command.executeCommand(Bot.this, chat, msg, s, args);
+                    	if (isAuthenticationNeeded()) {
+                    		ACL.impersonate(this.authentication.getAuthentication(), new NotReallyRoleSensitiveCallable<Void, JBotException>() {
+								private static final long serialVersionUID = 1L;
+
+								public Void call() throws JBotException {
+									command.executeCommand(Bot.this, chat, msg, s, args);
+									return null;
+								}
+							});
+                    	} else {
+                    		command.executeCommand(Bot.this, chat, msg, s, args);
+                    	}
+                    } else {
+                        chat.sendMessage(s.getNickname() + " did you mean me? Unknown command " + cmd
+                                + "'\nUse '" + this.commandPrefix + " help' to get help!");
+                    }
+                } catch (Exception e) {
+                    LOGGER.warning(ExceptionHelper.dump(e));
+                }
+            }
+    	}
+    }
+    
     public void onMessage(final JBotMessage msg) {
         // is it a command for me ? (returns null if not, the payload if so)
         String payload = retrieveMessagePayLoad(msg.getBody());
@@ -146,7 +190,7 @@ public class Bot {
 
 	private JBotSender getSender(JBotMessage msg) {
 	    String sender = msg.getFrom();     
-        final JBotSender s = new JBotSender(sender);;
+        final JBotSender s = new JBotSender(sender);
         return s;
     }
 

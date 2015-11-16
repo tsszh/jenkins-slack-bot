@@ -1,5 +1,6 @@
 package jenkins.plugins.bot;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import hudson.ExtensionList;
@@ -40,7 +41,7 @@ public abstract class BotCommand implements ExtensionPoint {
      * Returns all the registered {@link BotCommand}s.
      */
     public static ExtensionList<BotCommand> all() {
-        return Jenkins.getInstance().getExtensionList(BotCommand.class);
+    	return Jenkins.getInstance().getExtensionList(BotCommand.class);
     }    
 }
 

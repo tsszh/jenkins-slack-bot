@@ -22,7 +22,7 @@ public class SlackBot implements Runnable {
 	private SlackSession session;
 	private String slackToken;
 	
-	private final SortedMap<String, BotCommand> cmdsAndAliases = new TreeMap<String, BotCommand>();
+	private Bot bot = new Bot();
 	
 	// Slack Message Posted Handler
 	private SlackMessagePostedListener postedHangdler = new SlackMessagePostedListener() {
@@ -30,21 +30,13 @@ public class SlackBot implements Runnable {
 			if (!slackMessage.getSender().isBot()) {
 				String msg = slackMessage.getMessageContent();
 				if (msg.startsWith("!jenkins")) {
-					// Echoing Message Back To Slack Channel
-					String res = "Hello" + slackMessage.getSender().getUserName() + " : " + msg.substring(9);
-					session.sendMessage(slackMessage.getChannel(), res, null);
-					
-					String[] temp = msg.split("[\\s]+");
-					String[] args = Arrays.copyOfRange(temp,1,temp.length);
-					
-					final BotCommand command = SlackBot.this.cmdsAndAliases.get(args[0]);
-					
-					if (command != null) {
-                    	command.executeCommand(Bot.this, chat, msg, s, args);
-                    } else {
-                        this.chat.sendMessage(s.getNickname() + " did you mean me? Unknown command " + cmd
-                                + "'\nUse '" + this.commandPrefix + " help' to get help!");
-                    }
+					JBotChat chat = new JBotChatImpl(slackMessage,session);
+					try {
+						chat.sendMessage("Receive Message");
+					} catch (JBotException e) {
+						e.printStackTrace();
+					}
+					bot.onMessage(chat);
 				}
 			}
 		}
@@ -52,11 +44,6 @@ public class SlackBot implements Runnable {
 	
 	public SlackBot(String slackToken) {
 		this.slackToken = slackToken;
-		
-		for (BotCommand cmd : BotCommand.all()) {
-            for (String name : cmd.getCommandNames())
-                this.cmdsAndAliases.put(name,cmd);
-        }
 	}
 
 	private void ConnectToSlack(String token) throws IOException {
@@ -88,25 +75,33 @@ public class SlackBot implements Runnable {
 			}
 		}
 	}
-	
-	private class JBotChatImpl implements JBotChat {
-		private SlackSession session;
-		private SlackChannel channel;
-		public JBotChatImpl( SlackSession session ) {
-			this( session, null );
-		}
-		public JBotChatImpl( SlackSession session, SlackChannel channel ) {
-			this.session = session;
-			this.channel= channel;
-		}
-		public void sendMessage(String message) throws JBotException {
-			// TODO Auto-generated method stub
-			this.session.sendMessage(this.channel, message, null);
-			
-		}
-		public boolean isCommandsAccepted() {
-			// TODO Auto-generated method stub
-			return true;
-		}
+}
+
+class JBotChatImpl implements JBotChat {
+	private SlackSession session;
+	private SlackChannel channel;
+	private String sender;
+	private String msg;
+	public JBotChatImpl( SlackMessagePosted slackMessage, SlackSession session ) {
+		this.session = session;
+		this.channel = slackMessage.getChannel();
+		this.sender = slackMessage.getSender().getUserName();
+		this.msg = slackMessage.getMessageContent().replace("!jenkins", "");
+	}
+	public void sendMessage(String message) throws JBotException {
+		// TODO Auto-generated method stub
+		this.session.sendMessage(this.channel, message, null);
+		
+	}
+	public boolean isCommandsAccepted() {
+		return true;
+	}
+	@Override
+	public String getSender() {
+		return sender;
+	}
+	@Override
+	public String getMsg() {
+		return msg;
 	}
 }
