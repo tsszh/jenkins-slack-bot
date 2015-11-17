@@ -1,9 +1,7 @@
 package jenkins.plugins.slack;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.List;
 
 import com.ullink.slack.simpleslackapi.SlackChannel;
 import com.ullink.slack.simpleslackapi.SlackSession;
@@ -11,18 +9,19 @@ import com.ullink.slack.simpleslackapi.events.SlackMessagePosted;
 import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
 import com.ullink.slack.simpleslackapi.listeners.SlackMessagePostedListener;
 
-import hudson.security.ACL;
+import hudson.model.Hudson;
+import hudson.model.View;
+import jenkins.model.Jenkins;
 import jenkins.plugins.bot.Bot;
-import jenkins.plugins.bot.BotCommand;
 import jenkins.plugins.bot.JBotChat;
+import jenkins.plugins.bot.JBotCommand;
 import jenkins.plugins.bot.JBotException;
-import jenkins.security.NotReallyRoleSensitiveCallable;
 
 public class SlackBot implements Runnable {
 	private SlackSession session;
 	private String slackToken;
 	
-	private Bot bot = new Bot();
+	private Bot bot = null;
 	
 	// Slack Message Posted Handler
 	private SlackMessagePostedListener postedHangdler = new SlackMessagePostedListener() {
@@ -31,10 +30,8 @@ public class SlackBot implements Runnable {
 				String msg = slackMessage.getMessageContent();
 				if (msg.startsWith("!jenkins")) {
 					JBotChat chat = new JBotChatImpl(slackMessage,session);
-					try {
-						chat.sendMessage("Receive Message");
-					} catch (JBotException e) {
-						e.printStackTrace();
+					if ( bot == null ) {
+						bot = new Bot();
 					}
 					bot.onMessage(chat);
 				}
@@ -89,7 +86,7 @@ class JBotChatImpl implements JBotChat {
 		this.msg = slackMessage.getMessageContent().replace("!jenkins", "");
 	}
 	public void sendMessage(String message) throws JBotException {
-		// TODO Auto-generated method stub
+//		System.out.println("Sending Message...");
 		this.session.sendMessage(this.channel, message, null);
 		
 	}

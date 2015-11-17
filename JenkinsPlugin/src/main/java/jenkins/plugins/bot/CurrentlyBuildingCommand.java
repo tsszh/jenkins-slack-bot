@@ -20,7 +20,7 @@ import jenkins.model.Jenkins;
  * @author Bjoern Kasteleiner
  */
 @Extension
-public class CurrentlyBuildingCommand extends BotCommand {
+public class CurrentlyBuildingCommand extends JBotCommand {
 
 	@Override
 	public Collection<String> getCommandNames() {

@@ -45,3 +45,5 @@ Target
 *.jar
 *.class
 /target/
+JenkinsPlugin/work/
+JenkinsPlugin/work/

@@ -2,6 +2,7 @@ package jenkins.plugins.bot;
 
 import hudson.model.AbstractProject;
 import hudson.model.View;
+import hudson.ExtensionPoint;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import jenkins.model.Jenkins;
  *
  * @author kutzi
  */
-public class DefaultJobProvider implements JobProvider {
+public class DefaultJobProvider implements ExtensionPoint, JobProvider {
 
     public AbstractProject<?, ?> getJobByName(String name) {
         return Jenkins.getInstance().getItemByFullName(name, AbstractProject.class);

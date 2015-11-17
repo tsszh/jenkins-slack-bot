@@ -16,7 +16,7 @@ import jenkins.model.Jenkins;
  * @author Pascal Bleser
  */
 @Extension
-public class QueueCommand extends BotCommand {
+public class QueueCommand extends JBotCommand {
 	
 	private static final String HELP = " - show the state of the build queue";
 

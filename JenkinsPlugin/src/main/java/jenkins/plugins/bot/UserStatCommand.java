@@ -3,7 +3,6 @@ package jenkins.plugins.bot;
 import hudson.Extension;
 import hudson.model.Hudson;
 import hudson.model.User;
-import hudson.tasks.Mailer;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -44,10 +43,10 @@ public class UserStatCommand extends AbstractTextSendingCommand {
 				buf.append("\n").append("Description: ").append(user.getDescription());
 			}
 			
-			Mailer.UserProperty mailProperty = user.getProperty(Mailer.UserProperty.class);
-			if (mailProperty != null) {
-				buf.append("\n").append("E-mail: ").append(mailProperty.getAddress());
-			}
+//			Mailer.UserProperty mailProperty = user.getProperty(Mailer.UserProperty.class);
+//			if (mailProperty != null) {
+//				buf.append("\n").append("E-mail: ").append(mailProperty.getAddress());
+//			}
 			
 			return buf.toString();
 		} else {

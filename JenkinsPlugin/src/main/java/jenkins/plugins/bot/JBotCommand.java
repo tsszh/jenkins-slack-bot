@@ -1,13 +1,12 @@
 package jenkins.plugins.bot;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import hudson.ExtensionList;
 import hudson.ExtensionPoint;
 import jenkins.model.Jenkins;
 
-public abstract class BotCommand implements ExtensionPoint {
+public abstract class JBotCommand implements ExtensionPoint {
     /**
      * Obtains the name of the command. Single commands can register multiple aliases,
      * so this method returns a collection.
@@ -38,10 +37,10 @@ public abstract class BotCommand implements ExtensionPoint {
 	public abstract String getHelp();
 
     /**
-     * Returns all the registered {@link BotCommand}s.
+     * Returns all the registered {@link JBotCommand}s.
      */
-    public static ExtensionList<BotCommand> all() {
-    	return Jenkins.getInstance().getExtensionList(BotCommand.class);
+    public static ExtensionList<JBotCommand> all() {
+    	return Jenkins.getInstance().getExtensionList(JBotCommand.class);
     }    
 }
 

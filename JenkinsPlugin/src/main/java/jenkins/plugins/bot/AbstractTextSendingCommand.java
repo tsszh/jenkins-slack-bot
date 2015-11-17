@@ -7,7 +7,7 @@ import java.util.logging.Logger;
  * 
  * @author kutzi
  */
-public abstract class AbstractTextSendingCommand extends BotCommand {
+public abstract class AbstractTextSendingCommand extends JBotCommand {
 	
 	private static final Logger LOGGER = Logger.getLogger(AbstractTextSendingCommand.class.getName());
 

@@ -21,7 +21,7 @@ public class Bot {
 	private static final Logger LOGGER = Logger.getLogger(Bot.class.getName());
 
     @Extension
-	public static class HelpCommand extends BotCommand {
+	public static class HelpCommand extends JBotCommand {
         @Override
         public Collection<String> getCommandNames() {
             return Collections.singleton("help");
@@ -32,7 +32,7 @@ public class Bot {
 			if (bot.helpCache == null) {
 				final StringBuilder msg = new StringBuilder(64);
 				msg.append("Available commands:");
-				for (final Entry<String, BotCommand> item : bot.cmdsAndAliases.entrySet()) {
+				for (final Entry<String, JBotCommand> item : bot.cmdsAndAliases.entrySet()) {
 					// skip myself
 					if ((item.getValue() != this)
 							&& (item.getValue().getHelp() != null)) {
@@ -51,7 +51,7 @@ public class Bot {
 		}
 	}
 
-	private final SortedMap<String, BotCommand> cmdsAndAliases = new TreeMap<String, BotCommand>();
+	private final SortedMap<String, JBotCommand> cmdsAndAliases = new TreeMap<String, JBotCommand>();
 
 	private final JBotChat chat;
 	private final String nick;
@@ -72,7 +72,7 @@ public class Bot {
 		this.authentication = authentication;
         this.commandsAccepted = true;
 
-        for (BotCommand cmd : BotCommand.all()) {
+        for (JBotCommand cmd : JBotCommand.all()) {
             for (String name : cmd.getCommandNames())
                 this.cmdsAndAliases.put(name,cmd);
         }
@@ -84,7 +84,11 @@ public class Bot {
 		this.commandPrefix = "!jenkins";
 		this.authentication = null;
         this.commandsAccepted = true;
-        this.cmdsAndAliases.put("test",new SnackCommand());
+        
+        for (JBotCommand cmd : JBotCommand.all()) {
+            for (String name : cmd.getCommandNames())
+                this.cmdsAndAliases.put(name,cmd);
+        }
 	}
     /**
      * Returns an identifier describing the Im account used to send the build command.
@@ -105,10 +109,9 @@ public class Bot {
                 // first word is the command name
                 String cmd = args[0];
                 try {
-                    System.out.println(cmd);
-                	final BotCommand command = this.cmdsAndAliases.get(cmd);
+                	final JBotCommand command = this.cmdsAndAliases.get(cmd);
                     if (command != null) {
-                    	command.executeCommand(Bot.this, chat, msg, s, args);
+//                    	command.executeCommand(Bot.this, chat, msg, s, args);
                     	if (isAuthenticationNeeded()) {
                     		ACL.impersonate(this.authentication.getAuthentication(), new NotReallyRoleSensitiveCallable<Void, JBotException>() {
 								private static final long serialVersionUID = 1L;
@@ -158,7 +161,7 @@ public class Bot {
                 String cmd = args[0];
                 try {
                     System.out.println(cmd);
-                	final BotCommand command = this.cmdsAndAliases.get(cmd);
+                	final JBotCommand command = this.cmdsAndAliases.get(cmd);
                     if (command != null) {
                     	command.executeCommand(Bot.this, chat, msg, s, args);
                     	if (isAuthenticationNeeded()) {
@@ -220,7 +223,7 @@ public class Bot {
 	 * Returns the command or alias associated with the given name
 	 * or <code>null</code>.
 	 */
-	BotCommand getCommand(String name) {
+	JBotCommand getCommand(String name) {
 		return this.cmdsAndAliases.get(name);
 	}
 	
@@ -231,8 +234,8 @@ public class Bot {
 	 * if no alias was registered by that name previously
 	 * @throws IllegalArgumentException when trying to override a built-in command
 	 */
-	BotCommand addAlias(String name, BotCommand alias) {
-		BotCommand old = this.cmdsAndAliases.get(name);
+	JBotCommand addAlias(String name, JBotCommand alias) {
+		JBotCommand old = this.cmdsAndAliases.get(name);
 		if (old != null && ! (old instanceof AliasCommand)) {
 			throw new IllegalArgumentException("Won't override built-in command: '" + name + "'!");
 		}
@@ -249,7 +252,7 @@ public class Bot {
 	 * @return the removed alias or <code>null</code> if no alias by that name is registered
 	 */
 	AliasCommand removeAlias(String name) {
-		BotCommand alias = this.cmdsAndAliases.get(name);
+		JBotCommand alias = this.cmdsAndAliases.get(name);
 		if (alias instanceof AliasCommand) {
 			this.cmdsAndAliases.remove(name);
 			return (AliasCommand) alias;
@@ -265,7 +268,7 @@ public class Bot {
 	 */
 	SortedMap<String, AliasCommand> getAliases() {
 		SortedMap<String, AliasCommand> result = new TreeMap<String, AliasCommand>();
-		for (Map.Entry<String, BotCommand> entry : this.cmdsAndAliases.entrySet()) {
+		for (Map.Entry<String, JBotCommand> entry : this.cmdsAndAliases.entrySet()) {
 			if (entry.getValue() instanceof AliasCommand) {
 				result.put(entry.getKey(), (AliasCommand) entry.getValue());
 			}

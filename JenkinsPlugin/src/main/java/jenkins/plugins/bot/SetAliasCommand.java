@@ -11,7 +11,7 @@ import java.util.Map;
 import org.apache.commons.lang.ArrayUtils;
 
 /**
- * {@link BotCommand} to create a command alias.
+ * {@link JBotCommand} to create a command alias.
  * 
  * @author kutzi
  */
@@ -50,7 +50,7 @@ public class SetAliasCommand extends AbstractTextSendingCommand {
 		} else {
 			String alias = args[1];
 			String cmdName = args[2];
-			BotCommand cmd = bot.getCommand(cmdName);
+			JBotCommand cmd = bot.getCommand(cmdName);
 			if (cmd == null) {
 				return sender.getNickname() + ": sorry don't know a command or alias called '" + cmdName + "'";
 			}
@@ -76,13 +76,13 @@ public class SetAliasCommand extends AbstractTextSendingCommand {
 	/**
 	 * An alias.
 	 */
-	public static class AliasCommand extends BotCommand {
+	public static class AliasCommand extends JBotCommand {
 
-		private final BotCommand command;
+		private final JBotCommand command;
 		private final String commandName;
 		private final String[] arguments;
 
-        public AliasCommand(BotCommand cmd, String commandName, String[] arguments) {
+        public AliasCommand(JBotCommand cmd, String commandName, String[] arguments) {
 			this.command = cmd;
 			this.commandName = commandName;
 			this.arguments = arguments;
