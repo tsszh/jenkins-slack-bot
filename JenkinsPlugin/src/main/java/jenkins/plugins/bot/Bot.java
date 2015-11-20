@@ -17,7 +17,6 @@ import jenkins.model.Jenkins;
 import jenkins.plugins.bot.SetAliasCommand.AliasCommand;
 import jenkins.security.NotReallyRoleSensitiveCallable;
 
-
 public class Bot {
 
 	private static final Logger LOGGER = Logger.getLogger(Bot.class.getName());
@@ -83,7 +82,7 @@ public class Bot {
 	
     /**
      * Returns an identifier describing the Im account used to send the build command.
-     *   E.g. the Jabber ID of the Bot.
+     * 
      */
     public String getImId() {
         return this.nick + "@" + this.imServer;
