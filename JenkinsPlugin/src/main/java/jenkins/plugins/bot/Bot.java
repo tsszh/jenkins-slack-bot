@@ -11,6 +11,8 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
+import org.acegisecurity.Authentication;
+
 import jenkins.model.Jenkins;
 import jenkins.plugins.bot.SetAliasCommand.AliasCommand;
 import jenkins.security.NotReallyRoleSensitiveCallable;
@@ -60,29 +62,14 @@ public class Bot {
 	private boolean commandsAccepted;
 	private String helpCache;
 
-	private final AuthenticationHolder authentication;
+	private final Authentication authentication;
 
-	public Bot(JBotChat chat, String nick, String imServer,
-			String commandPrefix, AuthenticationHolder authentication
-			) {
-		this.chat = chat;
-		this.nick = nick;
-		this.imServer = imServer;
-		this.commandPrefix = commandPrefix;
-		this.authentication = authentication;
-        this.commandsAccepted = true;
-
-        for (JBotCommand cmd : JBotCommand.all()) {
-            for (String name : cmd.getCommandNames())
-                this.cmdsAndAliases.put(name,cmd);
-        }
-	}
-	public Bot(){
+	public Bot(Authentication authentication){
 		this.chat = null;
 		this.nick = "nick";
 		this.imServer = "Server";
 		this.commandPrefix = "!jenkins";
-		this.authentication = null;
+		this.authentication = authentication;
         this.commandsAccepted = true;
         
         for (JBotCommand cmd : JBotCommand.all()) {
@@ -90,6 +77,10 @@ public class Bot {
                 this.cmdsAndAliases.put(name,cmd);
         }
 	}
+	public Bot() {
+		this(null);
+	}
+	
     /**
      * Returns an identifier describing the Im account used to send the build command.
      *   E.g. the Jabber ID of the Bot.
@@ -111,9 +102,8 @@ public class Bot {
                 try {
                 	final JBotCommand command = this.cmdsAndAliases.get(cmd);
                     if (command != null) {
-//                    	command.executeCommand(Bot.this, chat, msg, s, args);
                     	if (isAuthenticationNeeded()) {
-                    		ACL.impersonate(this.authentication.getAuthentication(), new NotReallyRoleSensitiveCallable<Void, JBotException>() {
+                    		ACL.impersonate(this.authentication, new NotReallyRoleSensitiveCallable<Void, JBotException>() {
 								private static final long serialVersionUID = 1L;
 
 								public Void call() throws JBotException {
@@ -165,7 +155,7 @@ public class Bot {
                     if (command != null) {
                     	command.executeCommand(Bot.this, chat, msg, s, args);
                     	if (isAuthenticationNeeded()) {
-                    		ACL.impersonate(this.authentication.getAuthentication(), new NotReallyRoleSensitiveCallable<Void, JBotException>() {
+                    		ACL.impersonate(this.authentication, new NotReallyRoleSensitiveCallable<Void, JBotException>() {
 								private static final long serialVersionUID = 1L;
 
 								public Void call() throws JBotException {

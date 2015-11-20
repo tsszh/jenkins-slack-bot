@@ -1,0 +1,11 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+<f:section title="Global Slack Bot Settings" name="slackBot">
+    <f:entry title="Slack Bot Token" help="${rootURL}/plugin/slack/help-SlackBotConfig-botToken.html">
+        <f:textbox name="slackBotToken" value="${it.slackBotToken}" />
+    </f:entry>
+    <f:entry title="Jenkins User ID" help="${rootURL}/plugin/slack/help-SlackBotConfig-jenkinsUserID.html">
+        <f:textbox name="slackJenkinsUserID" value="${it.slackJenkinsUserID}" />
+    </f:entry>
+  </f:section>
+</j:jelly>
+
