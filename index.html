@@ -45,6 +45,82 @@
 <h3>
 <a id="supported-commands" class="anchor" href="#supported-commands" aria-hidden="true"><span class="octicon octicon-link"></span></a>Supported Commands</h3>
 
+<h4>
+<a id="schedule-a-job-build-with-standard-custom-or-no-quiet-period" class="anchor" href="#schedule-a-job-build-with-standard-custom-or-no-quiet-period" aria-hidden="true"><span class="octicon octicon-link"></span></a>Schedule a job build, with standard, custom or no quiet period</h4>
+
+<pre><code>build &lt;job&gt; [now|&lt;delay&gt;[s|m|h]] [&lt;parameterkey&gt;=&lt;value&gt;]* 
+schedule &lt;job&gt; [now|&lt;delay&gt;[s|m|h]] [&lt;parameterkey&gt;=&lt;value&gt;]* 
+</code></pre>
+
+<h4>
+<a id="specify-which-job-to-abort" class="anchor" href="#specify-which-job-to-abort" aria-hidden="true"><span class="octicon octicon-link"></span></a>Specify which job to abort</h4>
+
+<pre><code>abort &lt;job&gt;
+</code></pre>
+
+<h4>
+<a id="adds-a-description-to-a-build" class="anchor" href="#adds-a-description-to-a-build" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adds a description to a build</h4>
+
+<pre><code>comment &lt;job&gt; &lt;build-#&gt; &lt;comment&gt;
+</code></pre>
+
+<hr>
+
+<h4>
+<a id="list-jobs-which-are-currently-in-progress" class="anchor" href="#list-jobs-which-are-currently-in-progress" aria-hidden="true"><span class="octicon octicon-link"></span></a>List jobs which are currently in progress</h4>
+
+<pre><code>cb 
+currentlyBuilding 
+</code></pre>
+
+<h4>
+<a id="show-the-health-of-a-specific-job-jobs-in-a-view-or-all-jobs" class="anchor" href="#show-the-health-of-a-specific-job-jobs-in-a-view-or-all-jobs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Show the health of a specific job, jobs in a view or all jobs</h4>
+
+<pre><code>h [&lt;job&gt;|-v &lt;view&gt;]
+health [&lt;job&gt;|-v &lt;view&gt;]
+</code></pre>
+
+<h4>
+<a id="show-the-status-of-a-specific-job-jobs-in-a-view-or-all-jobs" class="anchor" href="#show-the-status-of-a-specific-job-jobs-in-a-view-or-all-jobs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Show the status of a specific job, jobs in a view or all jobs</h4>
+
+<pre><code>jobs [&lt;job&gt;|-v &lt;view&gt;] 
+s [&lt;job&gt;|-v &lt;view&gt;]
+status [&lt;job&gt;|-v &lt;view&gt;]
+</code></pre>
+
+<h4>
+<a id="show-the-state-of-the-build-queue" class="anchor" href="#show-the-state-of-the-build-queue" aria-hidden="true"><span class="octicon octicon-link"></span></a>Show the state of the build queue</h4>
+
+<pre><code>q
+queue
+</code></pre>
+
+<h4>
+<a id="show-the-test-results-of-a-specific-job-jobs-in-a-view-or-all-jobs" class="anchor" href="#show-the-test-results-of-a-specific-job-jobs-in-a-view-or-all-jobs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Show the test results of a specific job, jobs in a view or all jobs</h4>
+
+<pre><code>testresult [&lt;job&gt;|-v &lt;view&gt;]
+</code></pre>
+
+<h4>
+<a id="prints-information-about-a-jenkins-user" class="anchor" href="#prints-information-about-a-jenkins-user" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prints information about a Jenkins user</h4>
+
+<pre><code>userstat &lt;username&gt; 
+</code></pre>
+
+<hr>
+
+<h4>
+<a id="defines-a-new-alias-deletes-one-or-lists-all-existing-aliases" class="anchor" href="#defines-a-new-alias-deletes-one-or-lists-all-existing-aliases" aria-hidden="true"><span class="octicon octicon-link"></span></a>Defines a new alias, deletes one or lists all existing aliases</h4>
+
+<pre><code>alias [&lt;alias&gt; [&lt;command&gt;]] 
+</code></pre>
+
+<h4>
+<a id="om-nom-nom" class="anchor" href="#om-nom-nom" aria-hidden="true"><span class="octicon octicon-link"></span></a>om nom nom</h4>
+
+<pre><code>botsnack [&lt;snack&gt;]
+</code></pre>
+
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/tsszh/jenkins-slack-bot">Jenkins-slack-bot</a> is maintained by <a href="https://github.com/tsszh">tsszh</a>.</span>
 
