@@ -43,6 +43,31 @@
 </ul>
 
 <h3>
+<a id="usage--demo" class="anchor" href="#usage--demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage &amp; Demo</h3>
+
+<ul>
+<li>
+<p>Jenkins Plugin</p>
+
+<ol>
+<li>Install the slack plugin inside Jenkins. Please contact the Jenkins server managers for help.</li>
+<li>Create a <a href="https://slack.zendesk.com/hc/en-us/articles/202026038-Slackbot-your-assistant-notepad-programmable-bot">Programming Slackbot</a> and record the global unique token.</li>
+<li>Go to "Mange Jenkins" -&gt; "Configure System", find the "Global Slack Bot Setting" section</li>
+<li>Type in SlackBot token provided by Slack. </li>
+<li>If the Jenkins is protected, a valid Jenkins user Id must be provided, otherwise most commnands won't work. You can also use this to restrict which commands can be executed via the bot, by removing the respective permissions for this user.</li>
+<li>Save</li>
+<li>Go to your Slack channel and try "!jenkins botsnack apple"</li>
+<li>"!jenkins help" command will always provide the full list of available commands. </li>
+</ol>
+</li>
+<li>
+<p>Remote SlackBot</p>
+
+<p>To be Finished</p>
+</li>
+</ul>
+
+<h3>
 <a id="supported-commands" class="anchor" href="#supported-commands" aria-hidden="true"><span class="octicon octicon-link"></span></a>Supported Commands</h3>
 
 <h4>
