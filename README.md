@@ -14,7 +14,7 @@ The project is consist of two independent Java implementations.
     
     The bot can run independently of both Jenkins and Slack. The interaction of Jenkins is implemented via [Remote Access API](https://wiki.jenkins-ci.org/display/JENKINS/Remote+access+API). **--- Under Construction ---**
 
-### Usage & Demo
+### Installation Guide
 
 - Jenkins Plugin
     1. Install the slack plugin inside Jenkins. Please contact the Jenkins server managers for help.
@@ -37,6 +37,14 @@ The project is consist of two independent Java implementations.
 - Remote SlackBot
     
     To be Finished
+
+### Usage Demo
+![Demo1](images/Jenkins-Slack-Bot-Demo-001.png)
+![Demo2](images/Jenkins-Slack-Bot-Demo-002.png)
+![Demo3](images/Jenkins-Slack-Bot-Demo-003.png)
+![Demo4](images/Jenkins-Slack-Bot-Demo-004.png)
+![Demo5](images/Jenkins-Slack-Bot-Demo-005.png)
+![Demo6](images/Jenkins-Slack-Bot-Demo-006.png)
 
 ### Supported Commands
 ####Schedule a job build, with standard, custom or no quiet period
@@ -69,5 +77,5 @@ The project is consist of two independent Java implementations.
 ---
 ####Defines a new alias, deletes one or lists all existing aliases
     alias [<alias> [<command>]] 
-####om nom nom
+####Connection Test
     botsnack [<snack>]
