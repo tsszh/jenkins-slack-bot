@@ -94,7 +94,6 @@
 			<groupId>org.jenkins-ci.plugins</groupId>
 			<artifactId>junit</artifactId>
 			<version>1.9</version>
-			<scope>test</scope>
 		</dependency>
     </dependencies>
 
