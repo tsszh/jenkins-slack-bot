@@ -113,6 +113,7 @@ public class SlackBot implements Runnable {
 	void connectToSlack(String token) {
 		this.session = SlackSessionFactory.createWebSocketSlackSession(token);
 		this.session.addMessagePostedListener(postedHangdler);
+		logger.info("Connecting to Slack Server ("+token+")...");;
 		try {
 			this.session.connect();
 			logger.info("Connection to SLack: Success - "+token);

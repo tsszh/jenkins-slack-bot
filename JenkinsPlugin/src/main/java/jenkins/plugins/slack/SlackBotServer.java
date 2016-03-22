@@ -42,6 +42,8 @@ public class SlackBotServer extends Plugin implements Serializable {
         bot = new SlackBot(); 				// Create the slackbot
 		(new Thread(bot)).start(); 			// Thread for slack bot server
 		load();								// Loads token & userID of this instance from the persisted storage.
+		if ( this.token == null ) this.token = "";
+		if ( this.userID == null ) this.userID = "";
 		resetSlackBot();
     }
     /**
